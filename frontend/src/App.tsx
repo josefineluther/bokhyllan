@@ -19,7 +19,9 @@ function App() {
       element: (
         <>
           <header>
-            <img className='logo' src='bokhyllan.png' />
+            <NavLink to='/'>
+              <img className='logo' src='bokhyllan.png' />
+            </NavLink>
             <nav>
               <NavLink className='navLink' to='/'>
                 Hem
