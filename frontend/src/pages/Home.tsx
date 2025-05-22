@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react'
 import WomanReading from '../assets/IMG/woman_reading.jpg'
 import { apiUrl } from '../Api'
+import type { BookType } from '../types'
+import BookImg from '../components/BookImg'
+import GalleryDiv from '../components/GalleryDiv'
+import { Link } from 'react-router-dom'
+import BookInGallery from '../components/BookInGallery'
 
 function Home() {
-  const [summerBooks, setSummerBooks] = useState([])
+  const [summerBooks, setSummerBooks] = useState<BookType[]>([])
 
   function getSummerBooks() {
     fetch(`${apiUrl}/summerbooks`)
@@ -18,21 +23,29 @@ function Home() {
   return (
     <>
       <section className='hero'>
-        <img src={WomanReading} />
+        <img id='heroImage' src={WomanReading} />
         <div className='offer'>
           <h2>SOMMAR-REA</h2>
           <h2>3 för 2 på allt!</h2>
         </div>
       </section>
       <h3>Boktips inför semestern</h3>
-      <div style={{ display: 'flex' }}>
+      <GalleryDiv>
         {summerBooks.map((book) => (
-          <div style={{ margin: '1rem' }}>
-            <img src={book.img} style={{ height: '20rem', width: '13rem' }} />
-            <p>{book.title}</p>
-          </div>
+          <Link to={`/bookinfo/${book.book_id}`}>
+            <BookInGallery>
+              <BookImg src={book.img} />
+              <p>
+                <b>{book.title}</b>
+              </p>
+              <p>{book.author}</p>
+              <p>
+                <b>{book.price} kr</b>
+              </p>
+            </BookInGallery>
+          </Link>
         ))}
-      </div>
+      </GalleryDiv>
     </>
   )
 }

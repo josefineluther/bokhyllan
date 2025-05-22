@@ -4,10 +4,11 @@ import Books from './pages/Books.tsx'
 import BookInfo from './pages/BookInfo.tsx'
 import About from './pages/About.tsx'
 import Cart from './pages/Cart.tsx'
-import { createHashRouter, NavLink, Outlet, RouterProvider } from 'react-router-dom'
+import ScrollToTop from './ScrollToTop.ts'
+import { createBrowserRouter, NavLink, Outlet, RouterProvider } from 'react-router-dom'
 
 function App() {
-  const router = createHashRouter([
+  const router = createBrowserRouter([
     {
       children: [
         { element: <Home />, path: '/' },
@@ -18,22 +19,23 @@ function App() {
       ],
       element: (
         <>
+          <ScrollToTop />
           <header>
-            <NavLink to='/'>
-              <img className='logo' src='bokhyllan.png' />
+            <NavLink to='/' id='left'>
+              <img className='logo' src='/bokhyllan.png' />
             </NavLink>
             <nav>
-              <NavLink className='navLink' to='/'>
+              <NavLink className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} to='/'>
                 Hem
               </NavLink>
-              <NavLink className='navLink' to='/books'>
+              <NavLink className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} to='/books'>
                 Böcker
               </NavLink>
-              <NavLink className='navLink' to='/about'>
+              <NavLink className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} to='/about'>
                 Om
               </NavLink>
             </nav>
-            <NavLink className='navLink' to='/cart'>
+            <NavLink className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} id='right' to='/cart'>
               Varukorg
             </NavLink>
           </header>
