@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 const BookDiv = styled.div`
   padding: 2em;
-  background-color: #ffffff;
   display: grid;
   grid-template-areas:
     'image'

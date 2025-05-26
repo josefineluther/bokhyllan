@@ -6,6 +6,7 @@ import About from './pages/About.tsx'
 import Cart from './pages/Cart.tsx'
 import ScrollToTop from './ScrollToTop.ts'
 import { createBrowserRouter, NavLink, Outlet, RouterProvider } from 'react-router-dom'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 function App() {
   const router = createBrowserRouter([
@@ -36,7 +37,7 @@ function App() {
               </NavLink>
             </nav>
             <NavLink className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} id='right' to='/cart'>
-              Varukorg
+              <i className='bi bi-basket-fill' style={{ fontSize: '1.8em' }}></i>
             </NavLink>
           </header>
           <main>

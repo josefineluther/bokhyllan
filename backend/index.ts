@@ -26,8 +26,6 @@ app.get('/books', async (request, response) => {
   response.json(rows)
 })
 
-/* typa rows */
-
 app.get('/summerbooks', async (request, response) => {
   const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books WHERE home_page=$1', [true])
   response.json(rows)
@@ -46,7 +44,29 @@ app.post('/addtocart', async (request, response) => {
 })
 
 app.get('/cart', async (request, response) => {
-  response.send('')
+  const { rows }: { rows: BookType[] } = await client.query('SELECT books.*, cart.cart_id FROM cart INNER JOIN books ON cart.book_id = books.book_id')
+  response.json(rows)
+})
+
+app.delete('/:id', async (request, response) => {
+  await client.query('DELETE FROM cart WHERE book_id=$1', [request.params.id])
+  response.send('Bok borttagen från varukorgen!')
+})
+
+app.delete('/decrease/:id', async (request, response) => {
+  await client.query(
+    `WITH latest_row AS (
+      SELECT cart_id
+      FROM cart
+      WHERE book_id = $1
+      ORDER BY cart_id DESC
+      LIMIT 1
+    )
+      DELETE FROM cart
+      WHERE cart_id IN (SELECT cart_id FROM latest_row)`,
+    [request.params.id]
+  )
+  response.send('Bok borttagen från varukorgen!')
 })
 
 app.listen(3000, () => {

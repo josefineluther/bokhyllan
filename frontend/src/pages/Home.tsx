@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import WomanReading from '../assets/IMG/woman_reading.jpg'
 import { apiUrl } from '../Api'
 import type { BookType } from '../types'
-import BookImg from '../components/BookImg'
+import Img from '../components/Img'
 import GalleryDiv from '../components/GalleryDiv'
 import { Link } from 'react-router-dom'
 import BookInGallery from '../components/BookInGallery'
@@ -32,9 +32,9 @@ function Home() {
       <h3>Boktips inför semestern</h3>
       <GalleryDiv>
         {summerBooks.map((book) => (
-          <Link to={`/bookinfo/${book.book_id}`}>
+          <Link to={`/bookinfo/${book.book_id}`} key={book.book_id}>
             <BookInGallery>
-              <BookImg src={book.img} />
+              <Img src={book.img} />
               <p>
                 <b>{book.title}</b>
               </p>

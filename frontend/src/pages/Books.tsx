@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { apiUrl } from '../Api'
 import type { BookType } from '../types'
 import GalleryDiv from '../components/GalleryDiv'
-import BookImg from '../components/BookImg'
+import Img from '../components/Img'
 import BookInGallery from '../components/BookInGallery'
 
 function Books() {
@@ -24,9 +24,9 @@ function Books() {
       <h1>Böcker</h1>
       <GalleryDiv>
         {books.map((book) => (
-          <Link to={`/bookinfo/${book.book_id}`}>
+          <Link to={`/bookinfo/${book.book_id}`} key={book.book_id}>
             <BookInGallery>
-              <BookImg src={book.img} />
+              <Img src={book.img} />
               <p>
                 <b>{book.title}</b>
               </p>
