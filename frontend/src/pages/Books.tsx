@@ -10,7 +10,7 @@ function Books() {
   const [books, setBooks] = useState<BookType[]>([])
 
   function getBooks() {
-    fetch(`${apiUrl}/books`)
+    fetch(`${apiUrl}/api/books`)
       .then((response) => response.json())
       .then((result) => {
         setBooks(result)

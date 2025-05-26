@@ -5,12 +5,13 @@ import { Link } from 'react-router-dom'
 import BookInCart from '../components/BookInCart'
 import P from '../components/P'
 import Button from '../components/Button'
+import CartDiv from '../components/CartDiv'
 
 function Cart() {
   const [cart, setCart] = useState<BookType[]>([])
 
   function getCart() {
-    fetch(`${apiUrl}/cart`)
+    fetch(`${apiUrl}/api/cart`)
       .then((response) => response.json())
       .then((result: (BookType & { cart_id: number })[]) => {
         result.sort((a, b) => a.cart_id - b.cart_id)
@@ -60,13 +61,13 @@ function Cart() {
   const totalDiscount = computeTotalDiscount()
 
   function removeFromCart(id: number) {
-    fetch(`${apiUrl}/${id}`, {
+    fetch(`${apiUrl}/api/cart/${id}`, {
       method: 'DELETE'
     }).then(() => getCart())
   }
 
   function addToCart(bookId: number) {
-    fetch(`${apiUrl}/addtocart`, {
+    fetch(`${apiUrl}/api/cart`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ bookId })
@@ -74,7 +75,7 @@ function Cart() {
   }
 
   function decreaseCart(id: number) {
-    fetch(`${apiUrl}/decrease/${id}`, {
+    fetch(`${apiUrl}/api/decrease/${id}`, {
       method: 'DELETE'
     }).then(() => getCart())
   }
@@ -85,7 +86,7 @@ function Cart() {
     <>
       <h1>Varukorg</h1>
       {groupedCart.length > 0 ? (
-        <div style={{ margin: '2em 5em' }}>
+        <CartDiv>
           {groupedCart.map(({ book, count, booksForFree }) => (
             <div key={book.book_id}>
               <BookInCart>
@@ -141,17 +142,15 @@ function Cart() {
               <hr></hr>
             </div>
           ))}
-          <P style={{ textAlign: 'right' }}>Produkter: {sum} kr</P>
-          {totalDiscount === 0 ? (
-            <P style={{ textAlign: 'right' }}>Rabatt: {totalDiscount} kr</P>
-          ) : (
-            <P style={{ textAlign: 'right' }}>Rabatt: -{totalDiscount} kr</P>
-          )}
-          <h3 style={{ textAlign: 'right' }}>Summa: {sum - totalDiscount} kr</h3>
+          <div style={{ textAlign: 'right', marginTop: '2em', marginBottom: '3em' }}>
+            <P>Produkter: {sum} kr</P>
+            {totalDiscount === 0 ? <P>Rabatt: {totalDiscount} kr</P> : <P>Rabatt: -{totalDiscount} kr</P>}
+            <h3>Summa: {sum - totalDiscount} kr</h3>
+          </div>
           <div style={{ textAlign: 'center' }}>
             <Button>Till kassan</Button>
           </div>
-        </div>
+        </CartDiv>
       ) : (
         <p>Din varukorg är tom</p>
       )}

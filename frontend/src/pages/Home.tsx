@@ -11,7 +11,7 @@ function Home() {
   const [summerBooks, setSummerBooks] = useState<BookType[]>([])
 
   function getSummerBooks() {
-    fetch(`${apiUrl}/summerbooks`)
+    fetch(`${apiUrl}/api/summerbooks`)
       .then((response) => response.json())
       .then((result) => {
         setSummerBooks(result)

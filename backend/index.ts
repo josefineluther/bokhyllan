@@ -21,39 +21,39 @@ app.use(cors())
 
 app.use(express.json())
 
-app.get('/books', async (request, response) => {
+app.get('/api/books', async (request, response) => {
   const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books')
   response.json(rows)
 })
 
-app.get('/summerbooks', async (request, response) => {
+app.get('/api/summerbooks', async (request, response) => {
   const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books WHERE home_page=$1', [true])
   response.json(rows)
 })
 
-app.get('/bookinfo/:id', async (request, response) => {
+app.get('/api/bookinfo/:id', async (request, response) => {
   const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books WHERE book_id=$1', [request.params.id])
   response.json(rows)
 })
 
-app.post('/addtocart', async (request, response) => {
+app.post('/api/cart', async (request, response) => {
   const { bookId } = request.body
 
   await client.query('INSERT INTO cart (book_id) VALUES ($1)', [bookId])
   response.status(201).send('Bok tillagd i varukorgen!')
 })
 
-app.get('/cart', async (request, response) => {
+app.get('/api/cart', async (request, response) => {
   const { rows }: { rows: BookType[] } = await client.query('SELECT books.*, cart.cart_id FROM cart INNER JOIN books ON cart.book_id = books.book_id')
   response.json(rows)
 })
 
-app.delete('/:id', async (request, response) => {
+app.delete('/api/cart/:id', async (request, response) => {
   await client.query('DELETE FROM cart WHERE book_id=$1', [request.params.id])
   response.send('Bok borttagen från varukorgen!')
 })
 
-app.delete('/decrease/:id', async (request, response) => {
+app.delete('/api/decrease/:id', async (request, response) => {
   await client.query(
     `WITH latest_row AS (
       SELECT cart_id
@@ -67,6 +67,10 @@ app.delete('/decrease/:id', async (request, response) => {
     [request.params.id]
   )
   response.send('Bok borttagen från varukorgen!')
+})
+
+app.use((request, response) => {
+  response.sendFile(path.join(path.resolve(), 'dist/index.html'))
 })
 
 app.listen(3000, () => {

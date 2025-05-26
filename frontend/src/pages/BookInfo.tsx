@@ -16,7 +16,7 @@ function BookInfo() {
 
   useEffect(() => {
     function getBook() {
-      fetch(`${apiUrl}/bookinfo/${bookId}`)
+      fetch(`${apiUrl}/api/bookinfo/${bookId}`)
         .then((response) => response.json())
         .then((result) => {
           setBook(result[0])
@@ -26,7 +26,7 @@ function BookInfo() {
   }, [bookId])
 
   function addToCart() {
-    fetch(`${apiUrl}/addtocart`, {
+    fetch(`${apiUrl}/api/cart`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ bookId })
