@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const GalleryDiv = styled.div`
-  padding: 2em 0;
+  margin: 2em 0;
   display: grid;
   grid-template-columns: 1fr;
   gap: 2em;

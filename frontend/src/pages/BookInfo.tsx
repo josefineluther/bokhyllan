@@ -1,12 +1,38 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import styled from 'styled-components'
 import { apiUrl } from '../Api'
 import type { BookType } from '../types'
-import BookDiv from '../components/BookDiv'
-import P from '../components/P'
-import Button from '../components/Button'
-import Img from '../components/Img'
+import P from '../styled_components/P'
+import Button from '../styled_components/Button'
+import Img from '../styled_components/Img'
 import { Link } from 'react-router-dom'
+
+const BookDiv = styled.div`
+  padding: 2em;
+  display: grid;
+  grid-template-areas:
+    'image'
+    'title'
+    'description'
+    'productInfo'
+    'price';
+
+  @media only screen and (min-width: 600px) {
+    column-gap: 4em;
+    grid-template-areas:
+      'image title'
+      'image description'
+      'productInfo price';
+    grid-template-rows: auto auto 1fr;
+  }
+
+  @media only screen and (min-width: 992px) {
+    margin: 0 9em;
+    column-gap: 4em;
+    grid-template-columns: 1fr 2fr;
+  }
+`
 
 function BookInfo() {
   const { id } = useParams()
@@ -30,7 +56,9 @@ function BookInfo() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ bookId })
-    }).then(() => setAddedToCart(true))
+    })
+      .then(() => setAddedToCart(true))
+      .then(() => window.scrollTo(0, 0))
   }
 
   function close() {
@@ -82,6 +110,8 @@ function BookInfo() {
                 <b>Beskrivning</b>
               </P>
               <P>{book.description}</P>
+            </div>
+            <div style={{ gridArea: 'price' }}>
               <h2>{book.price} kr</h2>
               <Button onClick={addToCart}>LÄGG I VARUKORG</Button>
             </div>

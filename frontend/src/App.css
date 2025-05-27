@@ -9,7 +9,7 @@ h3,
 
 #heroImage {
   width: 100%;
-  height: 30rem;
+  height: 17em;
   object-fit: cover;
 }
 
@@ -44,7 +44,7 @@ hr {
 }
 
 main {
-  padding: 0 3rem 4rem 3rem;
+  padding: 0 2rem 3rem 2rem;
   min-height: 80vh;
 }
 
@@ -61,6 +61,7 @@ a {
 
 .navLink {
   margin: 1rem;
+  display: block;
 }
 
 .navLinkActive {
@@ -79,6 +80,8 @@ a {
 }
 
 .hero {
+  display: flex;
+  flex-direction: column;
   margin: 0 0 3em 0;
 }
 
@@ -88,6 +91,12 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 2em;
+}
+
+.offer h2 {
+  font-size: 1em;
+  line-height: 0;
 }
 
 .logo {
@@ -96,9 +105,41 @@ a {
   object-fit: cover;
 }
 
+.bookInCart {
+  margin-right: 1em;
+}
+
+#desktopNav {
+  display: none;
+}
+
 @media only screen and (min-width: 600px) {
+  #desktopNav {
+    display: flex;
+  }
+
   .hero {
     display: grid;
     grid-template-columns: 2fr 1fr;
+  }
+
+  #heroImage {
+    height: 30rem;
+  }
+
+  .bookInCart {
+    margin-right: 3em;
+  }
+
+  main {
+    padding: 0 3rem 4rem 3rem;
+  }
+
+  .offer h2 {
+    font-size: 1.5em;
+  }
+
+  .navLink {
+    display: inline;
   }
 }

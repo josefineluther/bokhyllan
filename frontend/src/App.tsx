@@ -2,6 +2,7 @@ import './App.css'
 import Home from './pages/Home.tsx'
 import Books from './pages/Books.tsx'
 import BookInfo from './pages/BookInfo.tsx'
+import MobileNav from './components/MobileNav.tsx'
 import About from './pages/About.tsx'
 import Cart from './pages/Cart.tsx'
 import ScrollToTop from './ScrollToTop.ts'
@@ -21,11 +22,12 @@ function App() {
       element: (
         <>
           <ScrollToTop />
-          <header>
+          <header style={{ display: 'flex' }}>
+            <MobileNav />
             <NavLink to='/' id='left'>
               <img className='logo' src='/bokhyllan.png' />
             </NavLink>
-            <nav>
+            <nav id='desktopNav'>
               <NavLink className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} to='/'>
                 Hem
               </NavLink>

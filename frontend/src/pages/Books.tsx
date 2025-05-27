@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { apiUrl } from '../Api'
 import type { BookType } from '../types'
-import GalleryDiv from '../components/GalleryDiv'
-import Img from '../components/Img'
-import BookInGallery from '../components/BookInGallery'
+import GalleryDiv from '../styled_components/GalleryDiv'
+import Img from '../styled_components/Img'
+import BookInGallery from '../styled_components/BookInGallery'
 
 function Books() {
   const [books, setBooks] = useState<BookType[]>([])

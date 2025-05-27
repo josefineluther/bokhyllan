@@ -1,11 +1,54 @@
 import { useState, useEffect } from 'react'
+import styled from 'styled-components'
 import type { BookType } from '../types'
 import { apiUrl } from '../Api'
 import { Link } from 'react-router-dom'
-import BookInCart from '../components/BookInCart'
-import P from '../components/P'
-import Button from '../components/Button'
-import CartDiv from '../components/CartDiv'
+import P from '../styled_components/P'
+import Button from '../styled_components/Button'
+import Img from '../styled_components/Img'
+
+const CartDiv = styled.div`
+  margin: 2em 0;
+
+  @media only screen and (min-width: 992px) {
+    margin: 2em 5em;
+  }
+`
+
+const BookInCart = styled.div`
+  padding: 1em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'remove remove'
+    'img info'
+    'img amount'
+    'price price';
+  gap: 0.5em;
+
+  @media only screen and (min-width: 600px) {
+    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-areas:
+      'img info remove'
+      'img amount price';
+  }
+
+  @media only screen and (min-width: 992px) {
+    grid-template-columns: 1fr 1fr 4fr;
+    grid-template-areas:
+      'img info remove'
+      'img amount price';
+  }
+`
+
+const AmountDiv = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 0.5px solid #787878;
+  width: 5em;
+  height: 2em;
+`
 
 function Cart() {
   const [cart, setCart] = useState<BookType[]>([])
@@ -85,75 +128,71 @@ function Cart() {
   return (
     <>
       <h1>Varukorg</h1>
-      {groupedCart.length > 0 ? (
-        <CartDiv>
-          {groupedCart.map(({ book, count, booksForFree }) => (
-            <div key={book.book_id}>
-              <BookInCart>
-                <div style={{ display: 'flex' }}>
-                  <Link to={`/bookinfo/${book.book_id}`}>
-                    <img src={book.img} style={{ marginRight: '3em', width: '7em' }} />
+      <CartDiv>
+        {groupedCart.length > 0 ? (
+          <>
+            {groupedCart.map(({ book, count, booksForFree }) => (
+              <>
+                <BookInCart key={book.book_id}>
+                  {/* <div style={{ display: 'flex', maxWidth: '15em', alignItems: 'center' }}> */}
+                  <Link to={`/bookinfo/${book.book_id}`} className='bookInCart' style={{ gridArea: 'img' }}>
+                    <Img src={book.img} />
                   </Link>
-                  <div>
-                    <Link to={`/bookinfo/${book.book_id}`}>
+
+                  <Link to={`/bookinfo/${book.book_id}`} style={{ gridArea: 'info' }}>
+                    <p>
+                      <b>{book.title}</b>
+                    </p>
+                    <p>{book.author}</p>
+                  </Link>
+
+                  <AmountDiv style={{ gridArea: 'amount' }}>
+                    <p style={{ cursor: 'pointer', padding: '1em' }} onClick={() => decreaseCart(book.book_id)}>
+                      -
+                    </p>
+                    <p>
+                      <b>{count}</b>
+                    </p>
+                    <p style={{ cursor: 'pointer', padding: '1em' }} onClick={() => addToCart(book.book_id)}>
+                      +
+                    </p>
+                  </AmountDiv>
+
+                  <i
+                    onClick={() => removeFromCart(book.book_id)}
+                    style={{ cursor: 'pointer', fontSize: '1.5em', textAlign: 'right', gridArea: 'remove' }}
+                    className='bi bi-x'
+                  ></i>
+
+                  <div style={{ gridArea: 'price', textAlign: 'right' }}>
+                    {booksForFree ? (
                       <p>
-                        <b>{book.title}</b>
+                        <s>{book.price * count} kr</s>
+                        <b> {book.price * (count - booksForFree)} kr</b>
                       </p>
-                      <p>{book.author}</p>
-                    </Link>
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-evenly',
-                        alignItems: 'center',
-                        border: '0.5px solid #787878',
-                        width: '5em',
-                        height: '2em'
-                      }}
-                    >
-                      <p style={{ cursor: 'pointer', padding: '1em' }} onClick={() => decreaseCart(book.book_id)}>
-                        -
-                      </p>
+                    ) : (
                       <p>
-                        <b>{count}</b>
+                        <b>{book.price * count} kr</b>
                       </p>
-                      <p style={{ cursor: 'pointer', padding: '1em' }} onClick={() => addToCart(book.book_id)}>
-                        +
-                      </p>
-                    </div>
+                    )}
                   </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', textAlign: 'right' }}>
-                  <p onClick={() => removeFromCart(book.book_id)} style={{ cursor: 'pointer' }}>
-                    <i className='bi bi-x' style={{ fontSize: '1.5em' }}></i>
-                  </p>
-                  {booksForFree ? (
-                    <p>
-                      <s>{book.price * count} kr</s>
-                      <b> {book.price * (count - booksForFree)} kr</b>
-                    </p>
-                  ) : (
-                    <p>
-                      <b>{book.price * count} kr</b>
-                    </p>
-                  )}
-                </div>
-              </BookInCart>
-              <hr></hr>
+                </BookInCart>
+                <hr></hr>
+              </>
+            ))}
+            <div style={{ textAlign: 'right', marginTop: '2em', marginBottom: '3em' }}>
+              <P>Produkter: {sum} kr</P>
+              {totalDiscount === 0 ? <P>Rabatt: {totalDiscount} kr</P> : <P>Rabatt: -{totalDiscount} kr</P>}
+              <h3>Summa: {sum - totalDiscount} kr</h3>
             </div>
-          ))}
-          <div style={{ textAlign: 'right', marginTop: '2em', marginBottom: '3em' }}>
-            <P>Produkter: {sum} kr</P>
-            {totalDiscount === 0 ? <P>Rabatt: {totalDiscount} kr</P> : <P>Rabatt: -{totalDiscount} kr</P>}
-            <h3>Summa: {sum - totalDiscount} kr</h3>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <Button>Till kassan</Button>
-          </div>
-        </CartDiv>
-      ) : (
-        <p>Din varukorg är tom</p>
-      )}
+            <div style={{ textAlign: 'center' }}>
+              <Button>Till kassan</Button>
+            </div>
+          </>
+        ) : (
+          <p>Din varukorg är tom</p>
+        )}
+      </CartDiv>
     </>
   )
 }
