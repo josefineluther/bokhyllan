@@ -88,7 +88,7 @@ function BookInfo() {
           )}
           <BookDiv>
             <div style={{ gridArea: 'image' }}>
-              <Img src={`/${book.img}`} />
+              <Img src={`/${book.img}`} alt={book.title} />
             </div>
             <div style={{ gridArea: 'productInfo' }}>
               <P>

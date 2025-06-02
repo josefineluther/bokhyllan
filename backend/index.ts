@@ -21,12 +21,12 @@ app.use(cors())
 
 app.use(express.json())
 
-app.get('/api/books', async (request, response) => {
+app.get('/api/books', async (_request, response) => {
   const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books')
   response.json(rows)
 })
 
-app.get('/api/summerbooks', async (request, response) => {
+app.get('/api/summerbooks', async (_request, response) => {
   const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books WHERE home_page=$1', [true])
   response.json(rows)
 })
@@ -43,14 +43,14 @@ app.post('/api/cart', async (request, response) => {
   response.status(201).send('Bok tillagd i varukorgen!')
 })
 
-app.get('/api/cart', async (request, response) => {
+app.get('/api/cart', async (_request, response) => {
   const { rows }: { rows: BookType[] } = await client.query('SELECT books.*, cart.cart_id FROM cart INNER JOIN books ON cart.book_id = books.book_id')
   response.json(rows)
 })
 
 app.delete('/api/cart/:id', async (request, response) => {
   await client.query('DELETE FROM cart WHERE book_id=$1', [request.params.id])
-  response.send('Bok borttagen från varukorgen!')
+  response.status(204).send('Bok borttagen från varukorgen!')
 })
 
 app.delete('/api/decrease/:id', async (request, response) => {
@@ -66,10 +66,10 @@ app.delete('/api/decrease/:id', async (request, response) => {
       WHERE cart_id IN (SELECT cart_id FROM latest_row)`,
     [request.params.id]
   )
-  response.send('Bok borttagen från varukorgen!')
+  response.status(204).send('Bok borttagen från varukorgen!')
 })
 
-app.use((request, response) => {
+app.use((_request, response) => {
   response.sendFile(path.join(path.resolve(), 'dist/index.html'))
 })
 

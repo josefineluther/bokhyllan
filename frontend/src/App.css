@@ -2,6 +2,7 @@ p,
 h1,
 h2,
 h3,
+a,
 .navLink {
   font-family: Arial, Helvetica, sans-serif;
   color: #333333;
@@ -32,15 +33,14 @@ hr {
 
 #left {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   width: 100%;
 }
 
 #right {
   margin: 0;
   display: flex;
-  justify-content: flex-end;
-  width: 100%;
+  justify-content: center;
 }
 
 main {
@@ -114,6 +114,15 @@ a {
 }
 
 @media only screen and (min-width: 600px) {
+  #left {
+    justify-content: flex-start;
+  }
+
+  #right {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
   #desktopNav {
     display: flex;
   }

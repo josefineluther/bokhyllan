@@ -26,7 +26,7 @@ function Books() {
         {books.map((book) => (
           <Link to={`/bookinfo/${book.book_id}`} key={book.book_id}>
             <BookInGallery>
-              <Img src={book.img} />
+              <Img src={book.img} alt={book.title} />
               <p>
                 <b>{book.title}</b>
               </p>

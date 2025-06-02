@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 const MobileNavStyle = styled.div`
   display: flex;
-  padding-right: 3.3em;
   cursor: pointer;
 
   @media only screen and (min-width: 600px) {
@@ -15,13 +14,14 @@ const MobileNavStyle = styled.div`
 const Menu = styled.div`
   position: absolute;
   background-color: #ffe74f;
-  height: 25vh;
+  height: 30vh;
   width: 100vw;
   left: 0;
   top: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
+  padding: 2.5em 0;
 `
 
 function MobileNav() {
@@ -40,13 +40,13 @@ function MobileNav() {
         <i onClick={toggleMenu} className={icon} style={{ fontSize: '1.8em', zIndex: '1' }}></i>
         {menu && (
           <Menu>
-            <NavLink onClick={toggleMenu} className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} to='/'>
+            <NavLink onClick={toggleMenu} to='/'>
               Hem
             </NavLink>
-            <NavLink onClick={toggleMenu} className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} to='/books'>
+            <NavLink onClick={toggleMenu} to='/books'>
               Böcker
             </NavLink>
-            <NavLink onClick={toggleMenu} className={({ isActive }) => (isActive ? 'navLinkActive' : 'navLink')} to='/about'>
+            <NavLink onClick={toggleMenu} to='/about'>
               Om
             </NavLink>
           </Menu>

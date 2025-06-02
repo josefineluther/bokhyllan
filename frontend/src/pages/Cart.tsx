@@ -8,7 +8,7 @@ import Button from '../styled_components/Button'
 import Img from '../styled_components/Img'
 
 const CartDiv = styled.div`
-  margin: 2em 0;
+  margin: 0;
 
   @media only screen and (min-width: 992px) {
     margin: 2em 5em;
@@ -90,15 +90,15 @@ function Cart() {
     const freeBooks = Math.floor(cart.length / 3)
     const newCart = [...cart]
     const cheapestBooks = newCart.sort((a, b) => a.price - b.price).slice(0, freeBooks)
-    if (cart.length >= 3) {
-      cheapestBooks.forEach((book) => {
-        discount += book.price
-        const existing = groupedCart.find((bookInGrouped) => bookInGrouped.book.book_id === book.book_id)
-        if (existing) {
-          existing.booksForFree += 1
-        }
-      })
-    }
+
+    cheapestBooks.forEach((book) => {
+      discount += book.price
+      const existing = groupedCart.find((bookInGrouped) => bookInGrouped.book.book_id === book.book_id)
+      if (existing) {
+        existing.booksForFree += 1
+      }
+    })
+
     return discount
   }
   const totalDiscount = computeTotalDiscount()
@@ -127,16 +127,15 @@ function Cart() {
 
   return (
     <>
-      <h1>Varukorg</h1>
+      <h1 style={{ margin: '0' }}>Varukorg</h1>
       <CartDiv>
         {groupedCart.length > 0 ? (
           <>
             {groupedCart.map(({ book, count, booksForFree }) => (
-              <>
-                <BookInCart key={book.book_id}>
-                  {/* <div style={{ display: 'flex', maxWidth: '15em', alignItems: 'center' }}> */}
+              <div key={book.book_id}>
+                <BookInCart>
                   <Link to={`/bookinfo/${book.book_id}`} className='bookInCart' style={{ gridArea: 'img' }}>
-                    <Img src={book.img} />
+                    <Img src={book.img} alt={book.title} />
                   </Link>
 
                   <Link to={`/bookinfo/${book.book_id}`} style={{ gridArea: 'info' }}>
@@ -178,7 +177,7 @@ function Cart() {
                   </div>
                 </BookInCart>
                 <hr></hr>
-              </>
+              </div>
             ))}
             <div style={{ textAlign: 'right', marginTop: '2em', marginBottom: '3em' }}>
               <P>Produkter: {sum} kr</P>
@@ -190,7 +189,9 @@ function Cart() {
             </div>
           </>
         ) : (
-          <p>Din varukorg är tom</p>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30vh' }}>
+            <p>Din varukorg är tom</p>
+          </div>
         )}
       </CartDiv>
     </>
