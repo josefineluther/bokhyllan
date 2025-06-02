@@ -9,21 +9,23 @@ import Img from '../styled_components/Img'
 import { Link } from 'react-router-dom'
 
 const BookDiv = styled.div`
-  padding: 2em;
+  padding: 0 1em;
   display: grid;
   grid-template-areas:
-    'image'
-    'title'
-    'description'
-    'productInfo'
-    'price';
+    '. image .'
+    'title title title'
+    'description description description'
+    'productInfo productInfo productInfo'
+    'price price price';
+  grid-template-columns: 1fr 3fr 1fr;
 
   @media only screen and (min-width: 600px) {
     column-gap: 4em;
     grid-template-areas:
       'image title'
       'image description'
-      'productInfo price';
+      'productInfo description'
+      '. price';
     grid-template-rows: auto auto 1fr;
   }
 
@@ -31,6 +33,13 @@ const BookDiv = styled.div`
     margin: 0 9em;
     column-gap: 4em;
     grid-template-columns: 1fr 2fr;
+  }
+
+  @media only screen and (min-width: 1300px) {
+    grid-template-areas:
+      'image title'
+      'image description'
+      'productInfo price';
   }
 `
 

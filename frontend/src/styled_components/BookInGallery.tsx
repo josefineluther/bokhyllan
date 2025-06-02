@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const BookInGallery = styled.div`
-  padding: 1em 2.5em;
+  padding: 0 3em;
   height: 95%;
 
   @media only screen and (min-width: 992px) {

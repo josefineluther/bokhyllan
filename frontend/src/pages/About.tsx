@@ -31,8 +31,8 @@ function About() {
             </b>
           </P>
           <P>
-            Hos oss hittar du ett handplockat sortiment av både nya och klassiska titlar – skönlitteratur, fackböcker, barnböcker och mycket mer. Vi vill att
-            Bokhyllan ska vara en plats där du upptäcker något du inte visste att du letade efter.
+            Hos oss hittar du ett handplockat sortiment av både nya och klassiska titlar i flera olika genrer. Vi vill att Bokhyllan ska vara en plats där du
+            upptäcker något du inte visste att du letade efter.
           </P>
           <P>
             Bakom Bokhyllan står ett litet team med stor kärlek till böcker. Vi drivs av nyfikenhet, läslust och en vilja att skapa en bokhandel som känns
