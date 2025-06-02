@@ -64,6 +64,7 @@ function Books() {
         <h1>Böcker</h1>
         <Select
           options={genre}
+          isSearchable={false}
           styles={customStyles}
           defaultValue={genre[0]}
           onChange={(selected) => {
