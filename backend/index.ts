@@ -21,9 +21,15 @@ app.use(cors())
 
 app.use(express.json())
 
-app.get('/api/books', async (_request, response) => {
-  const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books')
-  response.json(rows)
+app.get('/api/books', async (request, response) => {
+  const genre = request.query.genre
+  if (genre) {
+    const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books WHERE genre = $1', [genre])
+    response.json(rows)
+  } else {
+    const { rows }: { rows: BookType[] } = await client.query('SELECT * FROM books')
+    response.json(rows)
+  }
 })
 
 app.get('/api/summerbooks', async (_request, response) => {

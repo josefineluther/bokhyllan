@@ -118,7 +118,13 @@ function BookInfo() {
               <P>
                 <b>Beskrivning</b>
               </P>
-              <P>{book.description}</P>
+              <>
+                {book.description.split('\n').map((value: string, index: number) => (
+                  <>
+                    <P key={index}>{value}</P>
+                  </>
+                ))}
+              </>
             </div>
             <div style={{ gridArea: 'price' }}>
               <h2>{book.price} kr</h2>
