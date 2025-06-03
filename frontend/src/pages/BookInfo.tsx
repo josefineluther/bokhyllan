@@ -7,6 +7,7 @@ import P from '../styled_components/P'
 import Button from '../styled_components/Button'
 import Img from '../styled_components/Img'
 import { Link } from 'react-router-dom'
+import getUserId from '../user_id'
 
 const BookDiv = styled.div`
   padding: 0 1em;
@@ -64,7 +65,7 @@ function BookInfo() {
     fetch(`${apiUrl}/api/cart`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ bookId })
+      body: JSON.stringify({ bookId, userId: getUserId() })
     })
       .then(() => setAddedToCart(true))
       .then(() => window.scrollTo(0, 0))

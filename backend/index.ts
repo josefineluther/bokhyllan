@@ -43,34 +43,41 @@ app.get('/api/bookinfo/:id', async (request, response) => {
 })
 
 app.post('/api/cart', async (request, response) => {
-  const { bookId } = request.body
+  const { bookId, userId } = request.body
 
-  await client.query('INSERT INTO cart (book_id) VALUES ($1)', [bookId])
+  await client.query('INSERT INTO cart (book_id, user_id) VALUES ($1, $2)', [bookId, userId])
   response.status(201).send('Bok tillagd i varukorgen!')
 })
 
-app.get('/api/cart', async (_request, response) => {
-  const { rows }: { rows: BookType[] } = await client.query('SELECT books.*, cart.cart_id FROM cart INNER JOIN books ON cart.book_id = books.book_id')
+app.get('/api/cart', async (request, response) => {
+  const userId = request.query.user
+  const { rows }: { rows: BookType[] } = await client.query(
+    'SELECT books.*, cart.cart_id FROM cart INNER JOIN books ON cart.book_id = books.book_id WHERE user_id = $1',
+    [userId]
+  )
   response.json(rows)
 })
 
 app.delete('/api/cart/:id', async (request, response) => {
-  await client.query('DELETE FROM cart WHERE book_id=$1', [request.params.id])
+  const userId = request.query.user
+  await client.query('DELETE FROM cart WHERE book_id=$1 AND user_id=$2', [request.params.id, userId])
   response.status(204).send('Bok borttagen från varukorgen!')
 })
 
 app.delete('/api/decrease/:id', async (request, response) => {
+  const userId = request.query.user
   await client.query(
     `WITH latest_row AS (
       SELECT cart_id
       FROM cart
-      WHERE book_id = $1
+      WHERE book_id=$1
+      AND user_id=$2
       ORDER BY cart_id DESC
       LIMIT 1
     )
       DELETE FROM cart
       WHERE cart_id IN (SELECT cart_id FROM latest_row)`,
-    [request.params.id]
+    [request.params.id, userId]
   )
   response.status(204).send('Bok borttagen från varukorgen!')
 })

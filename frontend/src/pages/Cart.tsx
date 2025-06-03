@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import P from '../styled_components/P'
 import Button from '../styled_components/Button'
 import Img from '../styled_components/Img'
+import getUserId from '../user_id'
 
 const CartDiv = styled.div`
   margin: 0;
@@ -54,7 +55,7 @@ function Cart() {
   const [cart, setCart] = useState<BookType[]>([])
 
   function getCart() {
-    fetch(`${apiUrl}/api/cart`)
+    fetch(`${apiUrl}/api/cart?user=${getUserId()}`)
       .then((response) => response.json())
       .then((result: (BookType & { cart_id: number })[]) => {
         result.sort((a, b) => a.cart_id - b.cart_id)
@@ -104,7 +105,7 @@ function Cart() {
   const totalDiscount = computeTotalDiscount()
 
   function removeFromCart(id: number) {
-    fetch(`${apiUrl}/api/cart/${id}`, {
+    fetch(`${apiUrl}/api/cart/${id}?user=${getUserId()}`, {
       method: 'DELETE'
     }).then(() => getCart())
   }
@@ -113,12 +114,12 @@ function Cart() {
     fetch(`${apiUrl}/api/cart`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ bookId })
+      body: JSON.stringify({ bookId, userId: getUserId() })
     }).then(() => getCart())
   }
 
   function decreaseCart(id: number) {
-    fetch(`${apiUrl}/api/decrease/${id}`, {
+    fetch(`${apiUrl}/api/decrease/${id}?user=${getUserId()}`, {
       method: 'DELETE'
     }).then(() => getCart())
   }
