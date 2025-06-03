@@ -18,8 +18,7 @@ const customStyles: StylesConfig<OptionType, false> = {
     boxShadow: state.isFocused ? '0px' : '0px',
     fontFamily: 'Arial',
     borderRadius: '0px',
-    padding: '0em',
-    width: '300px'
+    padding: '0em'
   }),
   option: (base, state) => ({
     ...base,
@@ -60,7 +59,7 @@ function Books() {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className='titleDiv'>
         <h1>Böcker</h1>
         <Select
           options={genre}

@@ -109,11 +109,22 @@ a {
   margin-right: 1em;
 }
 
+.titleDiv {
+  display: flex;
+  flex-direction: column;
+}
+
 #desktopNav {
   display: none;
 }
 
 @media only screen and (min-width: 600px) {
+  .titleDiv {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   #left {
     justify-content: flex-start;
   }
