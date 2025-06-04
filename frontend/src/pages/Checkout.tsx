@@ -10,16 +10,20 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY!)
 function Checkout() {
   const { groupedCart } = useCartInfo()
 
-  const cartData = groupedCart.map((book: { book: BookType; count: number; booksForFree: number }) => ({
-    price_data: {
-      currency: 'SEK',
-      product_data: {
-        name: book.book.title
+  const cartData = groupedCart
+    .map((book: { book: BookType; count: number; booksForFree: number }) => ({
+      price_data: {
+        currency: 'SEK',
+        product_data: {
+          name: book.book.title
+        },
+        unit_amount: book.book.price * 100
       },
-      unit_amount: book.book.price * 100
-    },
-    quantity: book.count - book.booksForFree
-  }))
+      quantity: book.count - book.booksForFree
+    }))
+    .filter((book) => {
+      return book.quantity !== 0
+    })
 
   const fetchClientSecret = () => {
     return fetch(`${apiUrl}/create-checkout-session`, {
