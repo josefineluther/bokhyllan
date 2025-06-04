@@ -6,6 +6,7 @@ import Img from '../styled_components/Img'
 import GalleryDiv from '../styled_components/GalleryDiv'
 import { Link } from 'react-router-dom'
 import BookInGallery from '../styled_components/BookInGallery'
+import '../styles/Home.css'
 
 function Home() {
   const [summerBooks, setSummerBooks] = useState<BookType[]>([])

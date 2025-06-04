@@ -1,3 +1,5 @@
+/* Text och länkar */
+
 p,
 h1,
 h2,
@@ -8,50 +10,8 @@ a,
   color: #333333;
 }
 
-#heroImage {
-  width: 100%;
-  height: 17em;
-  object-fit: cover;
-}
-
-body {
-  margin: 0;
-  background-color: #fef8e9;
-}
-
-header {
-  padding: 3rem;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-hr {
-  border: 0.5px solid #787878;
-}
-
-#left {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-#right {
-  margin: 0;
-  display: flex;
-  justify-content: center;
-}
-
-main {
-  padding: 0 2rem 3rem 2rem;
-  min-height: 80vh;
-}
-
-footer {
-  background-color: #333333;
-  padding: 2rem;
-  text-align: center;
+.light {
+  color: #fef8e9;
 }
 
 a {
@@ -75,28 +35,36 @@ a {
   color: #787878;
 }
 
-.light {
-  color: #fef8e9;
+/* Övergripande struktur */
+
+body {
+  margin: 0;
+  background-color: #fef8e9;
 }
 
-.hero {
+header {
+  padding: 3rem;
+  text-align: center;
   display: flex;
-  flex-direction: column;
-  margin: 0 0 3em 0;
-}
-
-.offer {
-  background-color: #ffe74f;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2em;
 }
 
-.offer h2 {
-  font-size: 1em;
-  line-height: 0;
+main {
+  padding: 0 2rem 3rem 2rem;
+  min-height: 80vh;
+}
+
+footer {
+  background-color: #333333;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Nav-bar */
+
+#desktopNav {
+  display: none;
 }
 
 .logo {
@@ -105,24 +73,29 @@ a {
   object-fit: cover;
 }
 
-.bookInCart {
-  margin-right: 1em;
-}
-
-.titleDiv {
+#left {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
-#desktopNav {
-  display: none;
+#right {
+  margin: 0;
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (min-width: 600px) {
-  .titleDiv {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  .navLink {
+    display: inline;
+  }
+
+  main {
+    padding: 0 3rem 4rem 3rem;
+  }
+
+  #desktopNav {
+    display: flex;
   }
 
   #left {
@@ -132,34 +105,5 @@ a {
   #right {
     justify-content: flex-end;
     width: 100%;
-  }
-
-  #desktopNav {
-    display: flex;
-  }
-
-  .hero {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-  }
-
-  #heroImage {
-    height: 30rem;
-  }
-
-  .bookInCart {
-    margin-right: 3em;
-  }
-
-  main {
-    padding: 0 3rem 4rem 3rem;
-  }
-
-  .offer h2 {
-    font-size: 1.5em;
-  }
-
-  .navLink {
-    display: inline;
   }
 }

@@ -8,6 +8,8 @@ import Cart from './pages/Cart.tsx'
 import ScrollToTop from './ScrollToTop.ts'
 import { createBrowserRouter, NavLink, Outlet, RouterProvider } from 'react-router-dom'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import Checkout from './pages/Checkout.tsx'
+import Confirmation from './pages/Confirmation.tsx'
 
 function App() {
   const router = createBrowserRouter([
@@ -17,7 +19,9 @@ function App() {
         { element: <Books />, path: '/books' },
         { element: <BookInfo />, path: '/bookinfo/:id' },
         { element: <About />, path: '/about' },
-        { element: <Cart />, path: '/cart' }
+        { element: <Cart />, path: '/cart' },
+        { element: <Checkout />, path: '/checkout' },
+        { element: <Confirmation />, path: '/confirmation' }
       ],
       element: (
         <>

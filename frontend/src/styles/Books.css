@@ -1,0 +1,12 @@
+.titleDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (min-width: 600px) {
+  .titleDiv {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

@@ -12,3 +12,8 @@ export interface BookType {
   home_page: boolean
   img: string
 }
+
+export interface OptionType {
+  value: string
+  label: string
+}

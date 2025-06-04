@@ -121,9 +121,7 @@ function BookInfo() {
               </P>
               <>
                 {book.description.split('\n').map((value: string, index: number) => (
-                  <>
-                    <P key={index}>{value}</P>
-                  </>
+                  <P key={index}>{value}</P>
                 ))}
               </>
             </div>
