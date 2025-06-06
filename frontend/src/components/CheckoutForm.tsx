@@ -2,6 +2,19 @@ import { useCheckout, PaymentElement } from '@stripe/react-stripe-js'
 import Button from '../styled_components/Button'
 import useCartInfo from '../hooks/CartInfo'
 import { useState } from 'react'
+import styled from 'styled-components'
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  gap: 2em;
+  width: 80vw;
+
+  @media only screen and (min-width: 600px) {
+    width: 50vw;
+  }
+`
 
 function CheckoutForm() {
   const checkout = useCheckout()
@@ -21,7 +34,7 @@ function CheckoutForm() {
 
   return (
     <>
-      <form style={{ display: 'flex', flexDirection: 'column', margin: 'auto', gap: '2em', width: '50vw' }} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <h2 style={{ textAlign: 'center' }}>Att betala: {sum} kr</h2>
         <input
           type='email'
@@ -34,7 +47,7 @@ function CheckoutForm() {
         <Button style={{ alignSelf: 'center' }} type='submit'>
           Godkänn betalning
         </Button>
-      </form>
+      </Form>
     </>
   )
 }
