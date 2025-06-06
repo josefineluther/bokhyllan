@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { apiUrl } from '../Api'
 import type { BookType } from '../types'
 import getUserId from '../user_id'
 
-export default function useCartInfo() {
+function useCartInfo() {
   const [cart, setCart] = useState<BookType[]>([])
 
   function getCart() {
@@ -15,16 +15,15 @@ export default function useCartInfo() {
       })
   }
 
-  function computeProductPrice() {
+  const productPrice = useMemo(() => {
     let productPrice = 0
     cart.forEach((book) => {
       productPrice += book.price
     })
     return productPrice
-  }
-  const productPrice = computeProductPrice()
+  }, [cart])
 
-  function computeGroupedCart() {
+  const { groupedCart, totalDiscount } = useMemo(() => {
     const groupedCart: { count: number; book: BookType; booksForFree: number }[] = []
     cart.forEach((book) => {
       const existing = groupedCart.find((bookInGrouped) => bookInGrouped.book.book_id === book.book_id)
@@ -34,27 +33,22 @@ export default function useCartInfo() {
         groupedCart.push({ count: 1, book, booksForFree: 0 })
       }
     })
-    return groupedCart
-  }
-  const groupedCart = computeGroupedCart()
 
-  function computeTotalDiscount() {
-    let discount = 0
+    let totalDiscount = 0
     const freeBooks = Math.floor(cart.length / 3)
     const newCart = [...cart]
     const cheapestBooks = newCart.sort((a, b) => a.price - b.price).slice(0, freeBooks)
 
     cheapestBooks.forEach((book) => {
-      discount += book.price
+      totalDiscount += book.price
       const existing = groupedCart.find((bookInGrouped) => bookInGrouped.book.book_id === book.book_id)
       if (existing) {
         existing.booksForFree += 1
       }
     })
 
-    return discount
-  }
-  const totalDiscount = computeTotalDiscount()
+    return { groupedCart, totalDiscount }
+  }, [cart])
 
   function removeFromCart(id: number) {
     fetch(`${apiUrl}/api/cart/${id}?user=${getUserId()}`, {
@@ -82,3 +76,5 @@ export default function useCartInfo() {
 
   return { groupedCart, productPrice, sum, totalDiscount, addToCart, removeFromCart, decreaseCart }
 }
+
+export default useCartInfo
